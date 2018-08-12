@@ -29,4 +29,4 @@ def search():
             result = YuShuBook.search_by_keyword(q)
         return jsonify(result)
     else:
-        return jsonify({'msg': '参数校验失败'})
+        return jsonify(form.errors)
