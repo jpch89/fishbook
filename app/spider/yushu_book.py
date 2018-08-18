@@ -12,10 +12,14 @@ class YuShuBook:
     @classmethod
     def search_by_isbn(cls, isbn):
         url = cls.isbn_url.format(isbn)
-        # url = self.isbn_url.format(isbn) # 链式查找
         result = HTTP.get(url)
-        # json 在 Python 中会转换成字典
+        # book = query_from_mysql(isbn)
+        # if book:
+        #     return book
+        # else:
+        #     save(data)
         return result
+
 
     @classmethod
     def search_by_keyword(cls, keyword, page=1):
