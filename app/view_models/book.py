@@ -3,7 +3,8 @@
 # @Time:   2018/8/14 22:44
 
 class BookViewModel:
-    def package_single(self, data, keyword):
+    @classmethod
+    def package_single(cls, data, keyword):
         returned = {
             'books': [],
             'total': 0,
@@ -11,12 +12,22 @@ class BookViewModel:
         }
         if data:
             returned['total'] = 1
+            returned['books'] = [cls.__cut_book_data(data)]
+        return returned
 
-    def package_collection(self, data, keyword):
+    @classmethod
+    def package_collection(cls, data, keyword):
         pass
 
-    def __cut_book_data(self, data):
+    @classmethod
+    def __cut_book_data(cls, data):
         book = {
             'title': data['title'],
-
+            'publisher': data['publisher'],
+            'pages': data['pages'],
+            'author': '、'.join(data['author']),
+            'price': data['price'],
+            'summary': data['summary'],
+            'image': data['image']
         }
+        return book
