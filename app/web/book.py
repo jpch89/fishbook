@@ -2,7 +2,7 @@
 # @Author: jpch89
 # @Time:   2018/8/11 9:45
 
-from flask import jsonify, request
+from flask import jsonify, request, render_template, flash
 
 from app.forms.book import SearchForm
 from app.libs.helper import is_isbn_or_key
@@ -13,7 +13,7 @@ from . import web
 import json
 
 
-@web.route('/test/')
+@web.route('/test1/')
 def test1():
     from flask import request
     from app.libs.none_local import n
@@ -50,7 +50,29 @@ def search():
 
         books.fill(yushu_book, q)
         return json.dumps(books, default=lambda o: o.__dict__)
-        # return jsonify(books)
 
     else:
         return jsonify(form.errors)
+
+
+@web.route('/test/')
+def test():
+    r = {
+        'name': '',
+        'age': 18
+    }
+    r1 = {
+        'name': '王大锤',
+        'age': 17
+    }
+    flash('消息闪现第一次', category='error')
+    flash('消息闪现第二次', category='warning')
+    return render_template('test.html', data=r, data1=r1)
+
+@web.route('/test2/')
+def test2():
+    r = {
+        'name': '张三',
+        'age': 18
+    }
+    return render_template('test2.html', data=r)
