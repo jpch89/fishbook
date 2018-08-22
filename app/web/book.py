@@ -1,6 +1,7 @@
-"""
- Created by 七月 on 2018-2-1.
-"""
+# -*- coding: utf-8 -*-
+# @Author: jpch89
+# @Time:   2018/8/12 14:02
+
 from flask import jsonify, request, current_app, url_for, render_template, flash
 from app.forms.book import SearchForm
 import json
@@ -10,7 +11,6 @@ from app.spider.yushu_book import YuShuBook
 from app.view_models.book import BookViewModel, BookCollection
 from . import web
 
-__author__ = '七月'
 
 
 @web.route('/book/search')
@@ -44,7 +44,10 @@ def search():
 
 @web.route('/book/<isbn>/detail')
 def book_detail(isbn):
-    pass
+    yushu_book = YuShuBook()
+    yushu_book.search_by_isbn(isbn)
+    book = BookViewModel(yushu_book.first)
+    return render_template('book_detail.html', book=book, wishes=[], gifts=[])
 
 
 @web.route('/test')
@@ -57,8 +60,8 @@ def test():
     r1 = {
 
     }
-    flash('hello,qiyue', category='error')
-    flash('hello, jiuyue', category='warning')
+    flash('hello, jpch89-1', category='error')
+    flash('hello, jpch89-2', category='warning')
     # 模板 html
     return render_template('test.html', data=r, data1=r1)
 

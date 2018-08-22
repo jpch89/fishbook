@@ -1,6 +1,9 @@
+# -*- coding: utf-8 -*-
+# @Author: jpch89
+# @Time:   2018/8/22 10:50
 
 from . import web
-__author__ = '七月'
+
 
 
 @web.route('/my/gifts')
@@ -16,6 +19,3 @@ def save_to_gifts(isbn):
 @web.route('/gifts/<gid>/redraw')
 def redraw_from_gifts(gid):
     pass
-
-
-
