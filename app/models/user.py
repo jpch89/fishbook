@@ -10,6 +10,8 @@ from sqlalchemy import Column, Integer, String, Boolean, Float
 
 from flask_login import UserMixin
 
+from app import login_manager
+
 
 class User(UserMixin, Base):
     # __tablename__ = 'user1'
@@ -38,3 +40,7 @@ class User(UserMixin, Base):
 
     # def get_id(self):
     #     return self.id
+
+@login_manager.user_loader
+def get_user(uid):
+    return User.query.get(int(uid))

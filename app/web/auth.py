@@ -19,7 +19,7 @@ def register():
         user.set_attrs(form.data)
         db.session.add(user)
         db.session.commit()
-        redirect(url_for('web.login'))
+        return redirect(url_for('web.login'))
         # user.password = generate_password_hash(form.password.data)
     return render_template('auth/register.html', form=form)
 
@@ -31,6 +31,10 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user)
+            next = request.args.get('next')
+            if not next and not next.startswith('/'):
+                next = url_for('web.index')
+            return redirect(next)
         else:
             flash('账号不存在或密码错误')
     return render_template('auth/login.html', form=form)
