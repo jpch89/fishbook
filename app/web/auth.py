@@ -8,17 +8,19 @@ from app.models.base import db
 from app.forms.auth import RegisterForm, LoginForm
 from app.models.user import User
 from . import web
-from flask_login import login_user
+from flask_login import login_user, logout_user
 
 
 @web.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm(request.form)
     if request.method == 'POST' and form.validate():
-        user = User()
-        user.set_attrs(form.data)
-        db.session.add(user)
-        db.session.commit()
+
+        with db.auto_commit():
+            user = User()
+            user.set_attrs(form.data)
+            db.session.add(user)
+
         return redirect(url_for('web.login'))
         # user.password = generate_password_hash(form.password.data)
     return render_template('auth/register.html', form=form)
@@ -32,7 +34,7 @@ def login():
         if user and user.check_password(form.password.data):
             login_user(user)
             next = request.args.get('next')
-            if not next and not next.startswith('/'):
+            if not next or not next.startswith('/'):
                 next = url_for('web.index')
             return redirect(next)
         else:
@@ -57,4 +59,5 @@ def change_password():
 
 @web.route('/logout')
 def logout():
-    pass
+    logout_user()
+    return redirect(url_for('web.index'))
