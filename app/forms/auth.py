@@ -7,9 +7,15 @@ from wtforms.validators import Length, NumberRange, DataRequired, Email, Validat
 
 from app.models.user import User
 
-class LoginForm(Form):
-    email = StringField(validators=[DataRequired(), Length(8, 64), Email(message='电子邮箱不符合规范')])
+
+class EmailForm(Form):
+    email = StringField(validators=[DataRequired(), Length(8, 64),
+                                    Email(message='电子邮件不符合规范')])
+
+
+class LoginForm(EmailForm):
     password = PasswordField(validators=[DataRequired(message='密码不可以为空，请输入你的密码'), Length(6, 32)])
+
 
 class RegisterForm(LoginForm):
     nickname = StringField(validators=[DataRequired(), Length(2, 10, message='昵称至少需要2个字符，最多10个字符')])
